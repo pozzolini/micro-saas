@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="API (Bun Dev)" type="BunRunConfiguration">
+    <option name="applicationParameters" value="start --watch" />
+    <option name="program" value="node_modules/@nestjs/cli/bin/nest.js" />
+    <option name="workingDirectory" value="$PROJECT_DIR$" />
+    <envs>
+      <env name="DATABASE_URL" value="postgresql://postgres:postgres@localhost:5432/microsaas?schema=microsaas" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>

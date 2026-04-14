@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="API (Bun Prod)" type="BunRunConfiguration">
+    <option name="program" value="dist/src/main.js" />
+    <option name="workingDirectory" value="$PROJECT_DIR$" />
+    <envs>
+      <env name="DATABASE_URL" value="postgresql://postgres:postgres@localhost:5432/microsaas?schema=microsaas" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>
