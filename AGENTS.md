@@ -130,7 +130,7 @@ src/modules/<modulo>/entities
 
 - Indicar exatamente **qual arquivo alterar**
 - Mostrar **antes/depois**
-- Explicar o que está sendo feito
+- Explicar o que está sendo feito detalhadamente linha a linha
 - Dar instruções passo a passo
 
 Exemplo esperado:
@@ -199,6 +199,7 @@ dist/
 coverage/
 .env*
 .junie/
+history.md
 
 
 
@@ -238,6 +239,21 @@ Ele deve demonstrar:
 - clareza
 - boas práticas
 - pensamento de engenharia
+
+---
+
+## 🧠 Histórico
+
+Guardar histórico do que já foi feito 
+
+Padrões:
+
+- Sempre ler o arquivo history.md
+- Sempre adicionar conteúdo alterado após um PR
+- usar data e hora da alteração
+- arquivos que foram alterados
+- dar um breve contexto do que foi feito ex: foi add uma nova funcionalidade de add produto
+- deixar sempre próximo passo com uma tag e uma cor diferente para saber qual é a próxima coisa a fazer
 
 ---
 
