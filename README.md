@@ -1,111 +1,152 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Micro-SaaS Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend de portfólio construído com NestJS, Bun, Prisma e PostgreSQL, com foco em organização, boas práticas e evolução para um SaaS real.
 
-  <p align="center">A progressive NestJS backend running on <a href="https://bun.sh/" target="_blank">Bun</a> runtime for efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Stack
 
-## Description
+- Bun `>= 1.3.11`
+- NestJS `11`
+- TypeScript
+- Prisma `7`
+- PostgreSQL
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Pré-requisitos
 
-## Project setup
+Antes de rodar o projeto, você precisa ter instalado:
 
-```bash
-$ bun install
+- `Bun` para instalar dependências e executar os scripts do projeto
+- `PostgreSQL` porque o datasource do Prisma usa `provider = "postgresql"`
+- Uma variável de ambiente `DATABASE_URL` apontando para um banco PostgreSQL válido
+
+Exemplo de `DATABASE_URL`:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/micro_saas?schema=public"
 ```
 
-## Prisma workflow
+Se o PostgreSQL não estiver rodando, os comandos do Prisma e a aplicação vão falhar na conexão com o banco.
+
+## Instalação
+
+### 1. Instalar dependências do projeto
 
 ```bash
-# generate client
-$ bunx prisma generate
-
-# create and apply migration in development
-$ bunx prisma migrate dev
-
-# open Prisma Studio
-$ bunx prisma studio
+bun install
 ```
 
-## Compile and run the project
+### 2. Configurar ambiente
+
+Crie um arquivo `.env` na raiz do projeto com a variável:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/micro_saas?schema=public"
+```
+
+### 3. Preparar o banco
+
+Crie o banco no PostgreSQL com o nome que você definiu na `DATABASE_URL`.
+
+Exemplo:
+
+```sql
+CREATE DATABASE micro_saas;
+```
+
+### 4. Gerar o client do Prisma
 
 ```bash
-# development
-$ bun run start
-
-# watch mode
-$ bun run start:dev
-
-# production mode
-$ bun run start:prod
+bun run prisma:generate
 ```
 
-## Run tests
+### 5. Criar e aplicar migrations em desenvolvimento
 
 ```bash
-# unit tests
-$ bun run test
-
-# e2e tests
-$ bun run test:e2e
-
-# test coverage
-$ bun run test:cov
+bun run prisma:migrate:dev
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Executando o projeto
 
 ```bash
-$ bun add -g @nestjs/mau
-$ mau deploy
+# desenvolvimento
+bun run start:dev
+
+# build
+bun run build
+
+# produção
+bun run start:prod
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Scripts úteis
 
-## Resources
+```bash
+# lint
+bun run lint
 
-Check out a few resources that may come in handy when working with NestJS:
+# testes unitários
+bun run test
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# testes e2e
+bun run test:e2e
 
-## Support
+# coverage
+bun run test:cov
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Prisma Studio
+bun run prisma:studio
+```
 
-## Stay in touch
+## Fluxo recomendado após clonar
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+bun install
+bun run prisma:generate
+bun run prisma:migrate:dev
+bun run start:dev
+```
 
-## License
+## Validação antes de mudanças relevantes
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+bun run lint
+bun run test
+bun run build
+```
+
+## Estrutura
+
+```plaintext
+src/
+├ modules/
+│ └ <feature>/
+│   ├ dto/
+│   ├ entities/
+│   ├ <feature>.controller.ts
+│   ├ <feature>.service.ts
+│   └ <feature>.module.ts
+├ shared/
+│ └ database/
+│   ├ prisma.module.ts
+│   └ prisma.service.ts
+├ app.module.ts
+└ main.ts
+```
+
+## Arquitetura
+
+O fluxo obrigatório do projeto é:
+
+`Controller -> Service -> PrismaService -> Database`
+
+Regras principais:
+
+- `Controller`: recebe a requisição e devolve a resposta
+- `Service`: concentra a lógica de negócio
+- `PrismaService`: ponto único de acesso ao banco
+
+## Próximos passos
+
+- Autenticação com JWT
+- Multi-tenant com Organization/Workspace
+- Permissões por role
+- Integração com frontend

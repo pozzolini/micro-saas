@@ -89,6 +89,18 @@ Context:
 Next:
 - <span style="color:#2563eb"><strong>[NEXT]</strong></span> implementar autenticacao JWT (login, guard e protecao de rotas).
 
+## [2026-04-15 11:18 -03:00] README atualizado com setup real do ambiente
+Type: docs
+Files:
+- README.md
+- history.md
+Context:
+- Template padrao do NestJS removido e substituido por documentacao do projeto.
+- Pre-requisitos explicitos adicionados: Bun, PostgreSQL e `DATABASE_URL`.
+- Fluxo de instalacao, Prisma, execucao e validacao documentado de forma objetiva.
+Next:
+- <span style="color:#2563eb"><strong>[NEXT]</strong></span> adicionar `.env.example` para reduzir erro de configuracao inicial.
+
 ---
 
 ## Proximos passos (estado atual)
