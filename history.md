@@ -7,7 +7,7 @@ Timezone de referencia: `America/Sao_Paulo` (`-03:00`).
 
 Use este formato em cada nova entrada:
 
-```md
+
 ## [YYYY-MM-DD HH:mm -03:00] Titulo curto
 Type: feat | fix | chore | docs
 Files:
@@ -15,9 +15,8 @@ Files:
 - outro/arquivo.ts
 Context:
 - resumo objetivo do que foi implementado
-Next:
-- <span style="color:#2563eb"><strong>[NEXT]</strong></span> proximo passo direto
-```
+
+- <
 
 ---
 
@@ -34,8 +33,6 @@ Context:
 - Estrutura base NestJS criada com Bun e Prisma.
 - Modelo inicial `User` definido no banco (`id`, `name`, `email` unico).
 - Aplicacao inicial pronta para evolucao por modulos.
-Next:
-- <span style="color:#2563eb"><strong>[NEXT]</strong></span> consolidar CRUD completo no modulo `users`.
 
 ## [2026-04-14 13:44 -03:00] Padronizacao de runtime para Bun
 Type: chore
@@ -46,8 +43,6 @@ Files:
 Context:
 - Scripts e dependencias alinhados para execucao e fluxo de desenvolvimento com Bun.
 - Comandos Prisma adicionados nos scripts (`prisma:generate`, `prisma:migrate:dev`, `prisma:migrate:deploy`, `prisma:studio`).
-Next:
-- <span style="color:#2563eb"><strong>[NEXT]</strong></span> fortalecer camada de regras de negocio no service.
 
 ## [2026-04-14 15:27 -03:00] CRUD users + validacao + tratamento de erros
 Type: feat
@@ -67,8 +62,6 @@ Context:
 - `ValidationPipe` global configurado com `whitelist`, `forbidNonWhitelisted` e `transform`.
 - Tratamento de erro no service com `NotFoundException` (`P2025`) e `ConflictException` (`P2002`).
 - Fluxo arquitetural mantido: `Controller -> Service -> PrismaService -> Database`.
-Next:
-- <span style="color:#2563eb"><strong>[NEXT]</strong></span> implementar Swagger (documentacao automatica da API).
 
 ## [2026-04-15 09:38 -03:00] Swagger configurado e documentacao do modulo users
 Type: feat
@@ -86,8 +79,6 @@ Context:
 - DTOs e Entity de `users` documentados com `ApiProperty` para exibir schema e exemplos.
 - Endpoints de `users` documentados com tags, operacoes, parametros e respostas de sucesso/erro.
 - Validacao do fluxo concluida com `bun run lint`, `bun run test` e `bun run build`.
-Next:
-- <span style="color:#2563eb"><strong>[NEXT]</strong></span> implementar autenticacao JWT (login, guard e protecao de rotas).
 
 ## [2026-04-15 11:18 -03:00] README atualizado com setup real do ambiente
 Type: docs
@@ -98,13 +89,62 @@ Context:
 - Template padrao do NestJS removido e substituido por documentacao do projeto.
 - Pre-requisitos explicitos adicionados: Bun, PostgreSQL e `DATABASE_URL`.
 - Fluxo de instalacao, Prisma, execucao e validacao documentado de forma objetiva.
-Next:
-- <span style="color:#2563eb"><strong>[NEXT]</strong></span> adicionar `.env.example` para reduzir erro de configuracao inicial.
+
+## [2026-04-21 17:53 -03:00] Autenticacao JWT com login e protecao de rotas
+Type: feat
+Files:
+- package.json
+- bun.lock
+- prisma/schema.prisma
+- prisma/migrations/20260421175304_add_user_password_hash/migration.sql
+- src/app.module.ts
+- src/main.ts
+- src/modules/auth/auth.module.ts
+- src/modules/auth/auth.controller.ts
+- src/modules/auth/auth.service.ts
+- src/modules/auth/dto/login.dto.ts
+- src/modules/auth/entities/auth-token.entity.ts
+- src/modules/auth/guards/jwt-auth.guard.ts
+- src/modules/auth/strategies/jwt.strategy.ts
+- src/modules/users/dto/create-user.dto.ts
+- src/modules/users/dto/update-user.dto.ts
+- src/modules/users/users.controller.ts
+- src/modules/users/users.module.ts
+- src/modules/users/users.service.ts
+- .run/API (Bun Dev).run.xml
+- .run/API (Bun Prod).run.xml
+Context:
+- Autenticacao JWT implementada com `POST /auth/login`, `JwtStrategy` e `JwtAuthGuard`.
+- Modelo `User` evoluido com `passwordHash` e migration aplicada para suportar credenciais reais.
+- Cadastro de usuario atualizado para receber `password`, gerar hash com `bcryptjs` e nunca expor `passwordHash` nas respostas.
+- Rotas de leitura, atualizacao e remocao de `users` protegidas com Bearer token, mantendo `POST /users` publico para cadastro.
+- Swagger atualizado com `addBearerAuth()` e ambiente da IDE alinhado para usar `micro_saas` com `schema=public`.
+
+## [2026-04-22 10:52 -03:00] Base inicial de multi-tenant com organization
+Type: feat
+Files:
+- prisma/schema.prisma
+- prisma/migrations/20260422105259_add_organization_model/migration.sql
+- src/app.module.ts
+- src/modules/organizations/organizations.module.ts
+- src/modules/organizations/organizations.controller.ts
+- src/modules/organizations/organizations.service.ts
+- src/modules/organizations/dto/create-organization.dto.ts
+- src/modules/organizations/dto/update-organization.dto.ts
+- src/modules/organizations/entities/organization.entity.ts
+- src/modules/users/entities/user.entity.ts
+- src/modules/users/users.service.ts
+Context:
+- Modelo `Organization` adicionado ao Prisma com `name`, `slug` unico e relacao com `User`.
+- `User` passou a expor `organizationId` publico e a manter vinculo opcional com organization para preservar compatibilidade com dados existentes.
+- CRUD inicial de `organizations` implementado com DTOs, Swagger e protecao via JWT.
+- `OrganizationsModule` registrado no app como base para evoluir o escopo multi-tenant nas proximas fases.
 
 ---
 
 ## Proximos passos (estado atual)
 
-- <span style="color:#2563eb"><strong>[NEXT]</strong></span> Autenticacao JWT: login, guards e protecao de rotas.
-- <span style="color:#2563eb"><strong>[NEXT]</strong></span> Multi-tenant: Organization/Workspace e escopo por tenant.
+
+- <span style="color:#2563eb"><strong>[NEXT]</strong></span> Vincular a organization ao usuario autenticado e aplicar escopo por tenant nas regras de negocio.
 - <span style="color:#2563eb"><strong>[NEXT]</strong></span> Permissoes por role e controle de acesso por workspace.
+- <span style="color:#2563eb"><strong>[NEXT]</strong></span> Ajustar a execucao dos testes Jest no ambiente Bun/Windows.

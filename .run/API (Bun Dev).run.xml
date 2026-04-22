@@ -4,7 +4,7 @@
     <option name="program" value="node_modules/@nestjs/cli/bin/nest.js" />
     <option name="workingDirectory" value="$PROJECT_DIR$" />
     <envs>
-      <env name="DATABASE_URL" value="postgresql://postgres:postgres@localhost:5432/microsaas?schema=microsaas" />
+      <env name="DATABASE_URL" value="postgresql://postgres:postgres@localhost:5432/micro_saas?schema=public" />
     </envs>
     <method v="2" />
   </configuration>

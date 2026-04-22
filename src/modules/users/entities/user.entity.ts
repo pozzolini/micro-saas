@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class User {
   @ApiProperty({ example: 1 })
@@ -9,4 +9,7 @@ export class User {
 
   @ApiProperty({ example: 'digupaz@gmail.com' })
   email: string;
+
+  @ApiPropertyOptional({ example: 1, nullable: true })
+  organizationId?: number | null;
 }

@@ -7,9 +7,11 @@ import {
   Patch,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -18,6 +20,7 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -29,17 +32,21 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: 'List all users' })
+  @ApiBearerAuth()
   @ApiOkResponse({ type: User, isArray: true })
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
   @ApiOperation({ summary: 'Get user by id' })
+  @ApiBearerAuth()
   @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOkResponse({ type: User })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Invalid id' })
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
@@ -54,11 +61,13 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Update an existing user' })
+  @ApiBearerAuth()
   @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOkResponse({ type: User })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiConflictResponse({ description: 'Email already exists' })
   @ApiBadRequestResponse({ description: 'Invalid id' })
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -68,10 +77,12 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Delete user by id' })
+  @ApiBearerAuth()
   @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOkResponse({ type: User })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Invalid id' })
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);
