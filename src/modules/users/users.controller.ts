@@ -20,7 +20,14 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+
+// Como `AuthenticatedUser` e uma interface, ela nao existe em runtime.
+// Com `isolatedModules` + `emitDecoratorMetadata`, o TypeScript exige
+// que imports usados apenas como tipo sejam marcados explicitamente.
+import type { AuthenticatedUser } from '../auth/interfaces/authenticated-user.interface';
+
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -36,8 +43,8 @@ export class UsersController {
   @ApiOkResponse({ type: User, isArray: true })
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@CurrentUser() authenticatedUser: AuthenticatedUser) {
+    return this.usersService.findAll(authenticatedUser);
   }
 
   @ApiOperation({ summary: 'Get user by id' })
